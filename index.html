@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gateway — обмен данными между компаниями без утечек</title>
+<meta name="description" content="Gateway — шлюз для безопасного обмена данными между юридическими лицами: маскирование полей, контроль доступа, полный аудит. Соответствие 152-ФЗ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="site-header">
+  <div class="wrap header-row">
+    <a href="#top" class="mark">
+      <span class="mark-bracket">[</span>GATEWAY<span class="mark-bracket">]</span>
+    </a>
+    <nav class="site-nav">
+      <a href="#how">Как это работает</a>
+      <a href="#features">Возможности</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="#contact" class="nav-cta">Запросить демо</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero wrap">
+    <div class="hero-copy">
+      <p class="eyebrow">Дело № GW-2026 · Категория: обмен данными Б2Б</p>
+      <h1>
+        Партнёры получают данные.<br>
+        Не получают <span class="redact-word" data-reveal="доступ">████████</span>.
+      </h1>
+      <p class="hero-lede">
+        Gateway встаёт в контур обмена между двумя компаниями, отдаёт только разрешённые поля,
+        маскирует персональные данные на лету и ведёт журнал каждой передачи — готовый к предъявлению регулятору.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Запросить демо</a>
+        <a href="#how" class="btn btn-ghost">Как это устроено ↓</a>
+      </div>
+      <p class="hero-footnote">Развёртывается в контуре заказчика · без доступа к вашему источнику данных</p>
+    </div>
+
+    <div class="hero-doc" aria-hidden="true">
+      <div class="doc-card" id="doc-card">
+        <div class="doc-card-head">
+          <span>ЗАПРОС · consumer_id: acme-crm</span>
+          <span class="doc-card-status">исходящий</span>
+        </div>
+        <pre class="doc-fields">
+<span class="field"><span class="k">order_id</span>: <span class="v">88213</span></span>
+<span class="field"><span class="k">full_name</span>: <span class="v redact" data-hash="7f9a1c3e">Ковалёва Марина Юрьевна</span></span>
+<span class="field"><span class="k">phone</span>: <span class="v redact" data-hash="c02de881">+7 916 553 24 09</span></span>
+<span class="field"><span class="k">passport</span>: <span class="v redact" data-hash="41ffb930">45 12 998231</span></span>
+<span class="field"><span class="k">order_total</span>: <span class="v">14 300 ₽</span></span>
+<span class="field"><span class="k">region</span>: <span class="v">Новосибирск</span></span></pre>
+        <div class="doc-stamp" id="doc-stamp">GATEWAY<br>ПРОВЕРЕНО</div>
+      </div>
+      <p class="doc-caption">Поля вычисляются по правилам маршрута — вживую, без хранения промежуточной копии</p>
+    </div>
+  </section>
+
+  <!-- ============ PROBLEM ============ -->
+  <section class="problem">
+    <div class="wrap">
+      <p class="section-eyebrow">Приложение A · Обстоятельства дела</p>
+      <div class="problem-grid">
+        <article class="case-entry">
+          <span class="case-num">до 500 млн ₽</span>
+          <p>штраф за утечку персональных данных по 152-ФЗ; при повторном нарушении — 1–3% годовой выручки.</p>
+        </article>
+        <article class="case-entry">
+          <span class="case-num">до 4%</span>
+          <p>оборота компании — штраф по GDPR за неправомерную передачу персональных данных партнёру.</p>
+        </article>
+        <article class="case-entry">
+          <span class="case-num">FTP, Excel,<br>ручные выгрузки</span>
+          <p>так сегодня передают данные между отделами и партнёрами большинство компаний — отраслевого стандарта нет.</p>
+        </article>
+        <article class="case-entry">
+          <span class="case-num">0 аналитики</span>
+          <p>сквозная аналитика недоступна: юротдел блокирует интеграцию, как только речь заходит о передаче данных партнёру.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOLUTION ============ -->
+  <section class="solution">
+    <div class="wrap solution-inner">
+      <p class="section-eyebrow">Приложение B · Решение</p>
+      <h2>Один шлюз на границе двух компаний.</h2>
+      <p class="solution-lede">
+        Gateway устанавливается в контуре каждого партнёра. Ни одна из сторон не получает прямого доступа
+        к источнику данных другой — только то, что явно разрешено правилом.
+      </p>
+      <div class="pillars">
+        <div class="pillar">
+          <span class="pillar-mark">Ф</span>
+          <h3>Фильтрует</h3>
+          <p>Передаются только поля, перечисленные в правиле маршрута — остальное отбрасывается до выхода из контура.</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar-mark">М</span>
+          <h3>Маскирует</h3>
+          <p>Персональные данные заменяются хешем или скрываются, если партнёру нужен факт, а не значение.</p>
+        </div>
+        <div class="pillar">
+          <span class="pillar-mark">Л</span>
+          <h3>Логирует</h3>
+          <p>Каждый запрос фиксируется — кто, что, кому и когда передал. Готовый журнал для аудита и регулятора.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how" id="how">
+    <div class="wrap">
+      <p class="section-eyebrow">Приложение C · Порядок действий</p>
+      <h2>Как проходит один запрос</h2>
+      <ol class="steps">
+        <li class="step">
+          <span class="step-num">01</span>
+          <div>
+            <h3>Партнёр А задаёт правило</h3>
+            <p>Какие поля, какому потребителю, на каких условиях — маршрут настраивается в панели, без строчки кода.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">02</span>
+          <div>
+            <h3>Партнёр Б обращается через API</h3>
+            <p>Запрос проходит по токену или подписанному secure-каналу между двумя шлюзами — без прямого доступа к источнику.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">03</span>
+          <div>
+            <h3>Gateway маскирует поля в реальном времени</h3>
+            <p>Лишние данные не покидают контур; персональные — превращаются в хеш прямо в потоке ответа.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="step-num">04</span>
+          <div>
+            <h3>Запрос попадает в журнал</h3>
+            <p>Кто получил, что именно и когда — записано и доступно обеим сторонам как доказательство при проверке.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="features" id="features">
+    <div class="wrap">
+      <p class="section-eyebrow">Приложение D · Возможности</p>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <h3>Фильтрация и хеширование полей</h3>
+          <p>Правила вплоть до вложенных путей JSON — allow, mask или remove на каждое поле маршрута.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Контроль доступа</h3>
+          <p>Токен на потребителя, allow-листы по IP на источник и назначение для исходящих маршрутов.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Двусторонний безопасный обмен</h3>
+          <p>Подписанный канал между узлами: запрос и хеш тела заверяются ключом, срок жизни подписи — 60 секунд.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Забор данных по расписанию</h3>
+          <p>Плановые задания сами обращаются к источнику и пересылают результат через нужный маршрут.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Безопасный канал между узлами</h3>
+          <p>Взаимная аутентификация шлюзов через подписанный discovery — доверенные пиры, без ручных сертификатов на каждую пару.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Полный журнал операций</h3>
+          <p>Каждая передача — с полем, статусом и получателем — сохраняется отдельно от рабочей базы, для аудита без нагрузки на прод.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHY NOT X ============ -->
+  <section class="compare">
+    <div class="wrap compare-inner">
+      <p class="section-eyebrow">Приложение E · Альтернативы, которые уже пробовали</p>
+      <div class="compare-rows">
+        <div class="compare-row">
+          <h3>Написать самим</h3>
+          <p>6–18 месяцев разработки, своя команда поддержки, ни одной готовой сертификации на старте.</p>
+        </div>
+        <div class="compare-row">
+          <h3>Интеграционная шина (ESB)</h3>
+          <p>Решает общую задачу интеграции, но не заточена под маскирование полей и обмен между разными юрлицами.</p>
+        </div>
+        <div class="compare-row">
+          <h3>DLP / SIEM</h3>
+          <p>Защищает периметр внутри компании — не решает задачу совместного использования данных с партнёром.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section class="pricing" id="pricing">
+    <div class="wrap">
+      <p class="section-eyebrow">Приложение F · Условия поставки</p>
+      <h2>Коробка или облако</h2>
+      <p class="pricing-lede">Единица тарификации — узел и объём вызовов. Точная цена — по итогам пилота, без тендерных формальностей.</p>
+
+      <div class="pricing-tabs">
+        <button class="tab-btn is-active" data-tab="box">Коробка</button>
+        <button class="tab-btn" data-tab="saas">SaaS</button>
+      </div>
+
+      <div class="pricing-grid" data-panel="box">
+        <article class="price-card">
+          <h3>Пилот</h3>
+          <p class="price-tag">По запросу</p>
+          <ul>
+            <li>1 узел</li>
+            <li>1 партнёр</li>
+            <li>3 месяца</li>
+          </ul>
+        </article>
+        <article class="price-card is-featured">
+          <h3>Бизнес</h3>
+          <p class="price-tag">По запросу</p>
+          <ul>
+            <li>До 5 узлов</li>
+            <li>До 10 партнёров</li>
+            <li>Поддержка в рабочее время</li>
+          </ul>
+        </article>
+        <article class="price-card">
+          <h3>Enterprise</h3>
+          <p class="price-tag">По запросу</p>
+          <ul>
+            <li>Без ограничения узлов</li>
+            <li>SLA 24/7</li>
+            <li>Сопровождение сертификации</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="pricing-grid" data-panel="saas" hidden>
+        <article class="price-card">
+          <h3>Starter</h3>
+          <p class="price-tag">По запросу</p>
+          <ul>
+            <li>1 партнёр</li>
+            <li>До 100K вызовов/мес</li>
+          </ul>
+        </article>
+        <article class="price-card is-featured">
+          <h3>Growth</h3>
+          <p class="price-tag">По запросу</p>
+          <ul>
+            <li>До 10 партнёров</li>
+            <li>До 1M вызовов/мес</li>
+          </ul>
+        </article>
+        <article class="price-card">
+          <h3>Enterprise</h3>
+          <p class="price-tag">По запросу</p>
+          <ul>
+            <li>Выделенный контур (VPC)</li>
+            <li>Compliance-пакет</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="contact" id="contact">
+    <div class="wrap contact-inner">
+      <p class="section-eyebrow">Приложение G · Следующий шаг</p>
+      <h2>Показать, как это работает на ваших данных</h2>
+      <p>Пилот занимает три месяца: один узел, один партнёр, фиксированная стоимость. Оставьте контакт — вернёмся с датой демонстрации.</p>
+      <a href="mailto:hello@gateway.example?subject=Демо%20Gateway" class="btn btn-primary btn-large">Написать hello@gateway.example</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-row">
+    <span class="mark mark-small"><span class="mark-bracket">[</span>GATEWAY<span class="mark-bracket">]</span></span>
+    <span class="footer-note">Шлюз для безопасного обмена данными между юридическими лицами</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

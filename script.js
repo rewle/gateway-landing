@@ -15,23 +15,6 @@
     window.setTimeout(() => el.classList.add('is-hashed'), delay * 1000);
   });
 
-  // Click-to-reveal on the redacted hero word.
-  const redactWord = document.querySelector('.redact-word');
-  if (redactWord) {
-    const hidden = redactWord.textContent;
-    const revealed = redactWord.dataset.reveal || hidden;
-    redactWord.setAttribute('tabindex', '0');
-    redactWord.setAttribute('role', 'button');
-    redactWord.setAttribute('aria-label', 'Показать скрытое слово');
-    const toggle = () => {
-      redactWord.textContent = redactWord.textContent === hidden ? revealed : hidden;
-    };
-    redactWord.addEventListener('mouseenter', toggle);
-    redactWord.addEventListener('mouseleave', toggle);
-    redactWord.addEventListener('focus', toggle);
-    redactWord.addEventListener('blur', toggle);
-  }
-
   // Scroll reveal.
   const revealTargets = document.querySelectorAll(
     '.problem-grid, .solution-inner, .steps, .feature-grid, .compare-inner, .pricing, .contact-inner'

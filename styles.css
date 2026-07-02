@@ -64,7 +64,7 @@ body {
    on narrow screens; opt every direct grid/flex child back into shrinking */
 .hero > *, .header-row > *, .doc-card-head > *,
 .pillars > *, .steps > *, .feature-grid > *, .compare-row > *,
-.pricing-grid > *, .problem-grid > * {
+.pricing-grid > *, .problem-grid > *, .stack-rows > *, .form-row > * {
   min-width: 0;
 }
 
@@ -474,6 +474,29 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); margin-bottom: 16px; }
 .feature-card p { color: var(--ink-soft); font-size: 14px; line-height: 1.6; }
 
 /* ===================================================================
+   Stack / integrations
+   =================================================================== */
+.stack-inner { max-width: 880px; }
+
+.stack-lede { color: var(--ink-soft); font-size: 15.5px; max-width: 62ch; margin-bottom: 40px; }
+
+.stack-rows {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-bottom: 24px;
+}
+
+.stack-row { background: var(--paper); padding: 26px 24px; }
+
+.stack-row h3 { font-family: var(--font-body); font-weight: 600; font-size: 15px; margin-bottom: 8px; }
+.stack-row p { color: var(--ink-soft); font-size: 14px; line-height: 1.6; }
+
+.stack-footnote { font-family: var(--font-display); font-size: 12.5px; color: var(--ink-faint); max-width: 70ch; }
+
+/* ===================================================================
    Compare
    =================================================================== */
 .compare-inner { max-width: 880px; }
@@ -563,6 +586,52 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); margin-bottom: 16px; }
 }
 
 /* ===================================================================
+   FAQ
+   =================================================================== */
+.faq { background: var(--paper-raised); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.faq-inner { max-width: 780px; }
+
+.faq-list { display: flex; flex-direction: column; }
+
+.faq-item {
+  border-top: 1px solid var(--line);
+  padding: 20px 0;
+}
+.faq-item:last-child { border-bottom: 1px solid var(--line); }
+
+.faq-item summary {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15.5px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+
+.faq-item summary::before {
+  content: '+';
+  font-family: var(--font-display);
+  color: var(--stamp);
+  font-size: 16px;
+  width: 18px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.faq-item[open] summary::before { content: '−'; }
+
+.faq-item p {
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  line-height: 1.65;
+  margin-top: 12px;
+  padding-left: 30px;
+  max-width: 62ch;
+}
+
+/* ===================================================================
    Contact
    =================================================================== */
 .contact { background: var(--ink); color: var(--paper); }
@@ -573,6 +642,59 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); margin-bottom: 16px; }
 .contact p { color: rgba(234, 231, 221, 0.75); font-size: 16px; line-height: 1.6; margin-bottom: 32px; max-width: 56ch; }
 .contact .btn-primary { background: var(--paper); color: var(--ink); }
 .contact .btn-primary:hover { background: #b8a9ff; }
+
+.contact-form { max-width: 560px; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-row-full { display: block; margin-bottom: 20px; }
+
+.contact-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: rgba(234, 231, 221, 0.6);
+  text-transform: uppercase;
+  min-width: 0;
+}
+
+.contact-form input,
+.contact-form textarea {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--paper);
+  background: rgba(234, 231, 221, 0.06);
+  border: 1px solid rgba(234, 231, 221, 0.25);
+  border-radius: 2px;
+  padding: 11px 12px;
+  resize: vertical;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder { color: rgba(234, 231, 221, 0.35); }
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: #b8a9ff;
+  background: rgba(234, 231, 221, 0.1);
+}
+
+.form-footnote {
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: rgba(234, 231, 221, 0.45);
+  margin: 14px 0 0;
+  max-width: 48ch;
+}
 
 /* ===================================================================
    Footer
@@ -606,6 +728,7 @@ a:focus-visible, button:focus-visible {
   .feature-grid { grid-template-columns: repeat(2, 1fr); }
   .pricing-grid { grid-template-columns: 1fr; }
   .compare-row { grid-template-columns: 1fr; gap: 8px; }
+  .stack-rows { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -616,4 +739,5 @@ a:focus-visible, button:focus-visible {
   .problem-grid { grid-template-columns: 1fr; }
   .feature-grid { grid-template-columns: 1fr; }
   .step { grid-template-columns: 44px 1fr; }
+  .form-row { grid-template-columns: 1fr; gap: 0; }
 }

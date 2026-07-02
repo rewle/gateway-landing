@@ -193,10 +193,38 @@
     </div>
   </section>
 
+  <!-- ============ INTEGRATIONS ============ -->
+  <section class="stack">
+    <div class="wrap stack-inner">
+      <p class="section-eyebrow">Приложение E · Как это встраивается</p>
+      <h2>Работает поверх того, что у вас уже есть</h2>
+      <p class="stack-lede">Gateway — не отдельная платформа данных, а прокси на границе контура. Он ничего не заменяет внутри вашего стека.</p>
+      <div class="stack-rows">
+        <div class="stack-row">
+          <h3>Источник — любой HTTP/REST/JSON API</h3>
+          <p>Ваш бэкенд не меняется: Gateway обращается к обычному эндпоинту, как любой другой клиент.</p>
+        </div>
+        <div class="stack-row">
+          <h3>Партнёр подключается так же просто</h3>
+          <p>Bearer-токен или подписанный peer-канал между двумя шлюзами — партнёру не нужно ничего разворачивать у себя, если он использует ваш формат обмена.</p>
+        </div>
+        <div class="stack-row">
+          <h3>Источник без API — по расписанию</h3>
+          <p>Встроенный Cron Worker сам обращается к источнику по расписанию и пересылает результат тем же маршрутом с теми же правилами маскирования.</p>
+        </div>
+        <div class="stack-row">
+          <h3>Развёртывание — Docker Compose</h3>
+          <p>В контуре заказчика или в облаке — один и тот же образ, без вендор-лока в конкретную инфраструктуру.</p>
+        </div>
+      </div>
+      <p class="stack-footnote">Если источник живёт за специфичным протоколом (не HTTP) — обсуждаем адаптер на пилоте, не обещаем «из коробки» то, чего ещё нет.</p>
+    </div>
+  </section>
+
   <!-- ============ WHY NOT X ============ -->
   <section class="compare">
     <div class="wrap compare-inner">
-      <p class="section-eyebrow">Приложение E · Альтернативы, которые уже пробовали</p>
+      <p class="section-eyebrow">Приложение F · Альтернативы, которые уже пробовали</p>
       <div class="compare-rows">
         <div class="compare-row">
           <h3>Написать самим</h3>
@@ -217,9 +245,12 @@
   <!-- ============ PRICING ============ -->
   <section class="pricing" id="pricing">
     <div class="wrap">
-      <p class="section-eyebrow">Приложение F · Условия поставки</p>
+      <p class="section-eyebrow">Приложение G · Условия поставки</p>
       <h2>Коробка или облако</h2>
-      <p class="pricing-lede">Единица тарификации — узел и объём вызовов. Точная цена — по итогам пилота, без тендерных формальностей.</p>
+      <p class="pricing-lede">
+        Единица тарификации — узел и объём вызовов. Точная цена зависит от объёма и обсуждается на пилоте.
+        Пилот — фиксированная стоимость, обычно укладывается в бюджет до 1 млн ₽ и не требует тендерных процедур.
+      </p>
 
       <div class="pricing-tabs">
         <button class="tab-btn is-active" data-tab="box">Коробка</button>
@@ -229,7 +260,7 @@
       <div class="pricing-grid" data-panel="box">
         <article class="price-card">
           <h3>Пилот</h3>
-          <p class="price-tag">По запросу</p>
+          <p class="price-tag">Обычно до 1 млн ₽, без тендера</p>
           <ul>
             <li>1 узел</li>
             <li>1 партнёр</li>
@@ -285,13 +316,75 @@
     </div>
   </section>
 
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <div class="wrap faq-inner">
+      <p class="section-eyebrow">Приложение H · Вопросы, которые обычно задают первыми</p>
+      <h2>Прежде чем спросить</h2>
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>Это безопасно — вы видите наши данные?</summary>
+          <p>Нет. Gateway разворачивается в вашем контуре — мы физически не имеем доступа к вашим базам и не видим данные в открытом виде. Инстанс работает на вашей инфраструктуре или в выделенном контуре, который контролируете вы.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Сколько занимает внедрение?</summary>
+          <p>Пилот — один узел, один партнёр, три месяца, фиксированная стоимость и объём работ. Полноценное развёртывание на несколько партнёров обсуждается по итогам пилота.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Есть сертификация ФСТЭК/ФСБ?</summary>
+          <p>Пока нет — сертификация в дорожной карте, а не пройдена. Архитектура с самого начала проектировалась с учётом требований 152-ФЗ (маскирование, аудит, изоляция контура), но если сертификат обязателен для вашего пилота прямо сейчас — честно скажем на первом звонке, подходит ли текущий этап.</p>
+        </details>
+        <details class="faq-item">
+          <summary>У нас уже есть ESB — зачем нам ещё и Gateway?</summary>
+          <p>Gateway не заменяет интеграционную шину и не пытается. Шина решает интеграцию систем внутри вашего периметра; Gateway — обмен между разными юрлицами, где нужны маскирование полей на границе и подписанный аудит для обеих сторон, а не только для вас.</p>
+        </details>
+        <details class="faq-item">
+          <summary>С какими источниками данных это работает?</summary>
+          <p>С любым источником, у которого есть HTTP/REST/JSON API. Для источников без прямого API есть встроенный планировщик (Cron Worker), который сам забирает данные по расписанию. Специфичные протоколы — обсуждаем отдельно, не обещаем поддержку того, чего ещё нет.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Кто уже использует Gateway?</summary>
+          <p>Честно: сейчас мы набираем первых пилотных партнёров, готового списка клиентов ещё нет. Если войдёте в число первых — условия пилота будут выгоднее, чем для тех, кто придёт после публичных кейсов.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ CONTACT ============ -->
   <section class="contact" id="contact">
     <div class="wrap contact-inner">
-      <p class="section-eyebrow">Приложение G · Следующий шаг</p>
+      <p class="section-eyebrow">Приложение I · Следующий шаг</p>
       <h2>Показать, как это работает на ваших данных</h2>
       <p>Пилот занимает три месяца: один узел, один партнёр, фиксированная стоимость. Оставьте контакт — вернёмся с датой демонстрации.</p>
-      <a href="mailto:rewle@yandex.ru?subject=Демо%20Gateway" class="btn btn-primary btn-large">Написать rewle@yandex.ru</a>
+
+      <form class="contact-form" id="contact-form">
+        <div class="form-row">
+          <label>
+            <span>Имя</span>
+            <input type="text" name="name" required autocomplete="name">
+          </label>
+          <label>
+            <span>Компания</span>
+            <input type="text" name="company" required autocomplete="organization">
+          </label>
+        </div>
+        <div class="form-row">
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" required autocomplete="email">
+          </label>
+          <label>
+            <span>Телефон</span>
+            <input type="tel" name="phone" autocomplete="tel">
+          </label>
+        </div>
+        <label class="form-row-full">
+          <span>Что хотите обсудить (необязательно)</span>
+          <textarea name="message" rows="3" placeholder="Например: партнёр, с которым нужен обмен данными, и сроки"></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary btn-large">Запросить демо</button>
+        <p class="form-footnote">Откроется черновик письма в вашей почте — ничего не отправляется автоматически и не уходит на сторонний сервер.</p>
+      </form>
     </div>
   </section>
 

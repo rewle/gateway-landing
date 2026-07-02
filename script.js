@@ -17,7 +17,7 @@
 
   // Scroll reveal.
   const revealTargets = document.querySelectorAll(
-    '.problem-grid, .solution-inner, .steps, .feature-grid, .compare-inner, .pricing, .contact-inner'
+    '.problem-grid, .solution-inner, .steps, .feature-grid, .stack-inner, .compare-inner, .pricing, .faq-inner, .contact-inner'
   );
   revealTargets.forEach((el) => el.classList.add('reveal'));
 
@@ -36,6 +36,31 @@
       { threshold: 0.15 }
     );
     revealTargets.forEach((el) => io.observe(el));
+  }
+
+  // Contact form: compose a mailto with the filled fields, no backend involved.
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(contactForm);
+      const name = (data.get('name') || '').toString().trim();
+      const company = (data.get('company') || '').toString().trim();
+      const email = (data.get('email') || '').toString().trim();
+      const phone = (data.get('phone') || '').toString().trim();
+      const message = (data.get('message') || '').toString().trim();
+
+      const bodyLines = [
+        `Имя: ${name}`,
+        `Компания: ${company}`,
+        `Email: ${email}`,
+        phone ? `Телефон: ${phone}` : null,
+        message ? `\n${message}` : null,
+      ].filter(Boolean);
+
+      const mailto = `mailto:rewle@yandex.ru?subject=${encodeURIComponent('Демо Gateway — ' + company)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+      window.location.href = mailto;
+    });
   }
 
   // Pricing tabs.

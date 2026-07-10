@@ -1,4 +1,6 @@
 (() => {
+  const LEADS_ENDPOINT = 'https://leads.gatewayb2b.ru/submit';
+
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Wrap redacted values in real/hash spans and swap after the bar sweeps over them.
@@ -38,10 +40,26 @@
     revealTargets.forEach((el) => io.observe(el));
   }
 
-  // Contact form: compose a mailto with the filled fields, no backend involved.
+  // Contact form: submit to leadbot; on any failure fall back to a mailto draft
+  // so the channel survives even if the VPS is down.
   const contactForm = document.getElementById('contact-form');
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const statusEl = document.getElementById('form-status');
+
+    const setStatus = (text, kind) => {
+      if (!statusEl) return;
+      statusEl.textContent = text;
+      statusEl.classList.remove('is-success', 'is-error');
+      if (kind) statusEl.classList.add(kind);
+    };
+
+    const fallbackToMailto = (company, bodyLines) => {
+      const mailto = `mailto:rewle@yandex.ru?subject=${encodeURIComponent('Демо Gateway — ' + company)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+      window.location.href = mailto;
+    };
+
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const data = new FormData(contactForm);
       const name = (data.get('name') || '').toString().trim();
@@ -49,6 +67,7 @@
       const email = (data.get('email') || '').toString().trim();
       const phone = (data.get('phone') || '').toString().trim();
       const message = (data.get('message') || '').toString().trim();
+      const website = (data.get('website') || '').toString().trim();
 
       const bodyLines = [
         `Имя: ${name}`,
@@ -58,8 +77,32 @@
         message ? `\n${message}` : null,
       ].filter(Boolean);
 
-      const mailto = `mailto:rewle@yandex.ru?subject=${encodeURIComponent('Демо Gateway — ' + company)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
-      window.location.href = mailto;
+      if (submitBtn) submitBtn.disabled = true;
+      setStatus('Отправляем…', null);
+
+      try {
+        const controller = new AbortController();
+        const timeout = window.setTimeout(() => controller.abort(), 10000);
+        const res = await fetch(LEADS_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, company, email, phone, message, website }),
+          signal: controller.signal,
+        });
+        window.clearTimeout(timeout);
+
+        if (!res.ok) throw new Error(`leadbot responded ${res.status}`);
+
+        setStatus('Спасибо, вернёмся с датой демо.', 'is-success');
+        contactForm.reset();
+      } catch {
+        setStatus('', null);
+        if (submitBtn) submitBtn.disabled = false;
+        fallbackToMailto(company, bodyLines);
+        return;
+      }
+
+      if (submitBtn) submitBtn.disabled = false;
     });
   }
 

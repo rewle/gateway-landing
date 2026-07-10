@@ -382,8 +382,13 @@
           <span>Что хотите обсудить (необязательно)</span>
           <textarea name="message" rows="3" placeholder="Например: партнёр, с которым нужен обмен данными, и сроки"></textarea>
         </label>
+        <label class="form-honeypot" aria-hidden="true">
+          <span>Website</span>
+          <input type="text" name="website" tabindex="-1" autocomplete="off">
+        </label>
         <button type="submit" class="btn btn-primary btn-large">Запросить демо</button>
-        <p class="form-footnote">Откроется черновик письма в вашей почте — ничего не отправляется автоматически и не уходит на сторонний сервер.</p>
+        <p class="form-footnote">Заявка уходит напрямую нам, без сторонних форм-сервисов и аналитики.</p>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </form>
     </div>
   </section>

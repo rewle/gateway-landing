@@ -667,6 +667,7 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); margin-bottom: 16px; }
 }
 
 .contact-form input,
+.contact-form select,
 .contact-form textarea {
   font-family: var(--font-body);
   font-size: 15px;
@@ -678,14 +679,26 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); margin-bottom: 16px; }
   resize: vertical;
 }
 
+.contact-form select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, rgba(234, 231, 221, 0.5) 50%),
+    linear-gradient(135deg, rgba(234, 231, 221, 0.5) 50%, transparent 50%);
+  background-position: calc(100% - 18px) center, calc(100% - 13px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+
+.contact-form select option { color: var(--ink); }
+
 .contact-form input::placeholder,
 .contact-form textarea::placeholder { color: rgba(234, 231, 221, 0.35); }
 
 .contact-form input:focus,
+.contact-form select:focus,
 .contact-form textarea:focus {
   outline: none;
   border-color: #b8a9ff;
-  background: rgba(234, 231, 221, 0.1);
+  background-color: rgba(234, 231, 221, 0.1);
 }
 
 .form-footnote {
@@ -713,6 +726,31 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); margin-bottom: 16px; }
 }
 
 .form-status.is-success { color: #b8a9ff; }
+.form-status.is-error { color: #e59a9a; }
+
+.contact-form-success {
+  max-width: 560px;
+  padding: 28px 24px;
+  border: 1px solid rgba(184, 169, 255, 0.35);
+  background: rgba(184, 169, 255, 0.08);
+  border-radius: 2px;
+}
+
+.contact-form-success-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #b8a9ff;
+  margin: 0 0 8px;
+}
+
+.contact-form-success p:last-child {
+  color: rgba(234, 231, 221, 0.8);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0;
+}
 
 /* ===================================================================
    Footer

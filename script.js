@@ -42,10 +42,51 @@
 
   // Contact form: submit to leadbot; on any failure fall back to a mailto draft
   // so the channel survives even if the VPS is down.
+  const LEAD_SENT_COOKIE = 'gw_lead_sent';
+
+  const setCookie = (name, value, days) => {
+    const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+    document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
+  };
+
+  const hasCookie = (name) => document.cookie.split('; ').some((c) => c.startsWith(`${name}=`));
+
   const contactForm = document.getElementById('contact-form');
+  const successPanel = document.getElementById('contact-form-success');
+
+  const showSuccessPanel = () => {
+    if (contactForm) contactForm.hidden = true;
+    if (successPanel) successPanel.hidden = false;
+  };
+
   if (contactForm) {
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     const statusEl = document.getElementById('form-status');
+    const methodSelect = document.getElementById('contact-method');
+    const contactInput = document.getElementById('contact-value');
+    const contactLabel = document.getElementById('contact-label');
+
+    const contactMethodMeta = {
+      email: { label: 'Email', type: 'email', autocomplete: 'email', placeholder: 'you@company.ru' },
+      telegram: { label: 'Telegram', type: 'text', autocomplete: 'off', placeholder: '@username' },
+      phone: { label: 'Телефон', type: 'tel', autocomplete: 'tel', placeholder: '+7 999 000-00-00' },
+    };
+
+    const applyContactMethod = () => {
+      if (!methodSelect || !contactInput) return;
+      const meta = contactMethodMeta[methodSelect.value] || contactMethodMeta.email;
+      contactInput.type = meta.type;
+      contactInput.autocomplete = meta.autocomplete;
+      contactInput.placeholder = meta.placeholder;
+      if (contactLabel) contactLabel.textContent = meta.label;
+    };
+    applyContactMethod();
+    if (methodSelect) methodSelect.addEventListener('change', applyContactMethod);
+
+    // Already submitted on a previous visit — skip the form entirely.
+    if (hasCookie(LEAD_SENT_COOKIE)) {
+      showSuccessPanel();
+    }
 
     const setStatus = (text, kind) => {
       if (!statusEl) return;
@@ -54,8 +95,8 @@
       if (kind) statusEl.classList.add(kind);
     };
 
-    const fallbackToMailto = (company, bodyLines) => {
-      const mailto = `mailto:rewle@yandex.ru?subject=${encodeURIComponent('Демо Gateway — ' + company)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+    const fallbackToMailto = (name, bodyLines) => {
+      const mailto = `mailto:rewle@yandex.ru?subject=${encodeURIComponent('Демо Gateway — ' + name)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
       window.location.href = mailto;
     };
 
@@ -63,19 +104,14 @@
       e.preventDefault();
       const data = new FormData(contactForm);
       const name = (data.get('name') || '').toString().trim();
-      const company = (data.get('company') || '').toString().trim();
-      const email = (data.get('email') || '').toString().trim();
-      const phone = (data.get('phone') || '').toString().trim();
-      const message = (data.get('message') || '').toString().trim();
+      const contactMethod = (data.get('contactMethod') || '').toString().trim();
+      const contact = (data.get('contact') || '').toString().trim();
       const website = (data.get('website') || '').toString().trim();
 
       const bodyLines = [
         `Имя: ${name}`,
-        `Компания: ${company}`,
-        `Email: ${email}`,
-        phone ? `Телефон: ${phone}` : null,
-        message ? `\n${message}` : null,
-      ].filter(Boolean);
+        `${(contactMethodMeta[contactMethod] || contactMethodMeta.email).label}: ${contact}`,
+      ];
 
       if (submitBtn) submitBtn.disabled = true;
       setStatus('Отправляем…', null);
@@ -86,23 +122,22 @@
         const res = await fetch(LEADS_ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, company, email, phone, message, website }),
+          body: JSON.stringify({ name, contactMethod, contact, website }),
           signal: controller.signal,
         });
         window.clearTimeout(timeout);
 
         if (!res.ok) throw new Error(`leadbot responded ${res.status}`);
 
-        setStatus('Спасибо, вернёмся с датой демо.', 'is-success');
-        contactForm.reset();
-      } catch {
         setStatus('', null);
+        setCookie(LEAD_SENT_COOKIE, '1', 365);
+        showSuccessPanel();
+      } catch {
+        setStatus('Не получилось отправить напрямую — откроется черновик письма.', 'is-error');
         if (submitBtn) submitBtn.disabled = false;
-        fallbackToMailto(company, bodyLines);
+        fallbackToMailto(name, bodyLines);
         return;
       }
-
-      if (submitBtn) submitBtn.disabled = false;
     });
   }
 

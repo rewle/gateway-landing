@@ -360,27 +360,21 @@
       <form class="contact-form" id="contact-form">
         <div class="form-row">
           <label>
-            <span>Имя</span>
+            <span>Как обращаться</span>
             <input type="text" name="name" required autocomplete="name">
           </label>
           <label>
-            <span>Компания</span>
-            <input type="text" name="company" required autocomplete="organization">
-          </label>
-        </div>
-        <div class="form-row">
-          <label>
-            <span>Email</span>
-            <input type="email" name="email" required autocomplete="email">
-          </label>
-          <label>
-            <span>Телефон</span>
-            <input type="tel" name="phone" autocomplete="tel">
+            <span>Способ связи</span>
+            <select name="contactMethod" id="contact-method" required>
+              <option value="email">Email</option>
+              <option value="telegram">Telegram</option>
+              <option value="phone">Телефон</option>
+            </select>
           </label>
         </div>
         <label class="form-row-full">
-          <span>Что хотите обсудить (необязательно)</span>
-          <textarea name="message" rows="3" placeholder="Например: партнёр, с которым нужен обмен данными, и сроки"></textarea>
+          <span id="contact-label">Контакт</span>
+          <input type="email" name="contact" id="contact-value" required autocomplete="email" placeholder="you@company.ru">
         </label>
         <label class="form-honeypot" aria-hidden="true">
           <span>Website</span>
@@ -390,6 +384,10 @@
         <p class="form-footnote">Заявка уходит напрямую нам, без сторонних форм-сервисов и аналитики.</p>
         <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </form>
+      <div class="contact-form-success" id="contact-form-success" hidden>
+        <p class="contact-form-success-title">✓ Заявка отправлена</p>
+        <p>Спасибо! Мы получили её и вернёмся с датой демонстрации.</p>
+      </div>
     </div>
   </section>
 
